@@ -9,7 +9,7 @@ import com.telusko.My_auditorium_booking_backend.mapper.AuthMapper;
 import com.telusko.My_auditorium_booking_backend.model.User;
 import com.telusko.My_auditorium_booking_backend.repository.UserRepository;
 import com.telusko.My_auditorium_booking_backend.service.AuthService;
-import com.telusko.My_auditorium_booking_backend.util.JwtUtil;
+import com.telusko.My_auditorium_booking_backend.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthMapper authMapper;
-    private final JwtUtil jwtUtil;
+    private final JwtService jwtUtil;
 
     @Override
     public AuthResponseDto register(RegisterRequestDto registerRequest) {
