@@ -9,6 +9,8 @@ import com.telusko.My_auditorium_booking_backend.repository.HallRepository;
 import com.telusko.My_auditorium_booking_backend.repository.UserRepository;
 import com.telusko.My_auditorium_booking_backend.service.HallService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class HallServiceimpl  implements HallService{
 
     private final HallRepository hallRepository;
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public HallResponseDto createHall(HallRequestDto request, String email) {
@@ -36,6 +38,15 @@ public class HallServiceimpl  implements HallService{
                 .build();
 
         return mapToResponse(hallRepository.save(hall));
+    }
+
+    @Override
+    public Page<HallResponseDto> getAllHalls(Pageable pageable, String adminEmail) {
+        User admin = userRepository.findByEmail(adminEmail)
+                .orElseThrow(() -> new BadRequestException("User not found"));
+
+        return hallRepository.findByCreatedBy(admin,pageable)
+                .map(this :: mapToResponse);
     }
 
     private HallResponseDto mapToResponse(Hall hall){
