@@ -10,4 +10,12 @@ public interface HallService {
     HallResponseDto createHall(@Valid HallRequestDto request, String email);
 
     Page<HallResponseDto> getAllHalls(Pageable pageable, String adminEmail);
+
+    HallResponseDto updateHall(Long id, @Valid HallRequestDto request,String adminEmail);
+
+    void deleteHall(Long id, String email);
+
+    Page<HallResponseDto> getAllEnabledHalls(Pageable pageable);
+
+    HallResponseDto getHallById(Long id);
 }

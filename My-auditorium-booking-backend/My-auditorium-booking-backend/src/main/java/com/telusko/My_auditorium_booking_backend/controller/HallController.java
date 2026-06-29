@@ -43,6 +43,42 @@ public class HallController {
         return ResponseEntity.ok(hallService.getAllHalls(pageable,email));
     }
 
+    //UPDATE HALL
+    @PutMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<HallResponseDto> updateHall(
+          @PathVariable Long id,
+          @Valid @RequestBody HallRequestDto request,
+          Authentication authentication
+    ){
+        String email = authentication.getName();
 
+        return ResponseEntity.ok(hallService.updateHall(id,request,email));
+    }
+
+    //DELETE HALL
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<String> deleteHall(
+            @PathVariable Long id,
+            Authentication authentication
+    ){
+        String email = authentication.getName();
+        hallService.deleteHall(id,email);
+        return ResponseEntity.ok("Hall deleted Successfully");
+    }
+
+    //GET AVAILABLE (ALL LOGGED USERS)
+    @GetMapping("/available")
+    public ResponseEntity<Page<HallResponseDto>> getEnabledHalls(
+            @PageableDefault(size = 10,sort = "name") Pageable pageable
+    ){
+        return ResponseEntity.ok(hallService.getAllEnabledHalls(pageable));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<HallResponseDto> getHall(@PathVariable Long id){
+        return ResponseEntity.ok(hallService.getHallById(id));
+    }
 
 }

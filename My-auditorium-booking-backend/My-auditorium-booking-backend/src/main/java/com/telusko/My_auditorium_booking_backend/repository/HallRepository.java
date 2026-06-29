@@ -13,4 +13,6 @@ public interface HallRepository extends JpaRepository<Hall, Long> {
     boolean existsByName(@NotBlank(message = "Hall name is required") String name);
 
     Page<Hall> findByCreatedBy(User admin, Pageable pageable);
+
+    Page<Hall> findByEnabledTrue(Pageable pageable);
 }
